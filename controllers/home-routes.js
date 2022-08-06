@@ -82,8 +82,12 @@ router.get('/post/:id', (req, res) => {
             });
 
             res.render('single-post', {
-                post
+                post,
+                loggedIn: req.session.loggedIn
             });
+            // res.render('single-post', {
+            //     post
+            // });
         })
         .catch(err => {
             console.log(err);
