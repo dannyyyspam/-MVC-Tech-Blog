@@ -6,7 +6,7 @@ const {
 } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-//Get all posts
+// Get all posts
 router.get("/", (req, res) => {
     Post.findAll({
             attributes: ["id", "content", "title", "created_at"],
@@ -45,7 +45,6 @@ router.get("/:id", (req, res) => {
                     model: User,
                     attributes: ["username"],
                 },
-                // include the Comment model here:
                 {
                     model: Comment,
                     attributes: ["id", "comment_text", "post_id", "user_id", "created_at"],
@@ -87,7 +86,7 @@ router.post("/", withAuth, (req, res) => {
 });
 
 // Update a post
-router.put("/:id", withAuth (req, res) => {
+router.put("/:id", withAuth, (req, res) => {
     Post.update({
             title: req.body.title,
             content: req.body.post_content,
@@ -112,7 +111,7 @@ router.put("/:id", withAuth (req, res) => {
 });
 
 //Delete a post
-router.delete("/:id", withAuth (req, res) => {
+router.delete("/:id", withAuth, (req, res) => {
     Post.destroy({
             where: {
                 id: req.params.id,
@@ -132,5 +131,4 @@ router.delete("/:id", withAuth (req, res) => {
             res.status(500).json(err);
         });
 });
-
 module.exports = router;
