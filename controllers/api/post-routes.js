@@ -33,7 +33,7 @@ router.get("/", (req, res) => {
         });
 });
 
-//Get a single post
+// Get a single post
 router.get("/:id", (req, res) => {
     Post.findOne({
             where: {
@@ -83,7 +83,7 @@ router.post("/", (req, res) => {
         });
 });
 
-//Update a post
+// Update a post
 router.put("/:id", (req, res) => {
     Post.update({
             title: req.body.title,
