@@ -84,7 +84,8 @@ router.post('/login', (req, res) => {
         where: {
             email: req.body.email
         }
-    }).then(dbUserData => {
+    })
+    .then(dbUserData => {
         if (!dbUserData) {
             res.status(400).json({
                 message: 'No user with that email address!'
@@ -92,14 +93,25 @@ router.post('/login', (req, res) => {
             return;
         }
 
-        // const validPassword = dbUserData.checkPassword(req.body.password);
+        req.session.save(() => {
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
 
-        // if (!validPassword) {
-        //     res.status(400).json({
-        //         message: 'Incorrect password!'
-        //     });
-        //     return;
-        // }
+            res.json({
+                user: dbUserData,
+                message: 'You are now logged in!'
+            });
+        });
+
+        const validPassword = dbUserData.checkPassword(req.body.password);
+
+        if (!validPassword) {
+            res.status(400).json({
+                message: 'Incorrect password!'
+            });
+            return;
+        }
 
         req.session.save(() => {
             req.session.user_id = dbUserData.id;
@@ -114,35 +126,13 @@ router.post('/login', (req, res) => {
     });
 });
 
-// router.post('/login', (req, res) => {
-//     User.findOne({
-//             where: {
-//                 email: req.body.email
-//             }
-//         })
-//         .then(dbUserData => {
-//             if (!dbUserData) {
-//                 res.status(400).json({
-//                     message: 'No user with that email address!'
-//                 });
-//                 return;
-//             }
-//             res.json({
-//                 user: dbUserData,
-//                 message: 'You are now logged in!'
-//             });
-//         });
-// });
-
 router.post('/logout', (req, res) => {
-    if (req.session.loggedIn) {
-        req.session.destroy(() => {
-            res.status(204).end();
-        });
-    } else {
-        res.status(404).end();
-    }
-
+if (req.session.loggedIn) {
+    req.session.destroy(() => {
+        res.status(204).end();
+    });
+} else {
+    res.status(404).end();
+}
 });
-
 module.exports = router;
