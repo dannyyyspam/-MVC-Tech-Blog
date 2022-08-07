@@ -1,12 +1,11 @@
-const {
-    Model,
-    DataTypes
-} = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
-
+// create Post model
 class Post extends Model {}
 
+// Nate's Post model
 Post.init({
     id: {
         type: DataTypes.INTEGER,
