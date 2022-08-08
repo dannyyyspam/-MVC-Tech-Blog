@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 // Get all users
 router.get('/', (req, res) => {
+    // Access our User model and run .findAll() method
     User.findAll({
             attributes: {
                 exclude: ['password']
@@ -73,6 +75,7 @@ router.post('/', (req, res) => {
         });
 })
 
+// LOGIN
 router.post('/login', (req, res) => {
     User.findOne({
         where: {
@@ -129,4 +132,24 @@ if (req.session.loggedIn) {
     res.status(404).end();
 }
 });
+
+router.delete('/:id', withAuth, (req, res) => {
+    User.destroy({
+      where: {
+        id: req.params.id
+      }
+    })
+      .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'No user found with this id' });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  });
+
 module.exports = router;

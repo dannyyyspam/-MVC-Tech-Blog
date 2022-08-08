@@ -13,16 +13,19 @@ class User extends Model {
 // create columns for User
 User.init(
     {
+        // define an id column
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
+        // define a username column
         username: {
             type: DataTypes.STRING,
             allowNull: false
         },
+        // define a password column
         password: {
             type: DataTypes.STRING,
             allowNull: false,
