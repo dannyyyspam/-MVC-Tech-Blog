@@ -88,7 +88,7 @@ with the following npm packages
 No installation is needed as the app is deployed on Heroku
 
 ## Usage 💻
-App can be viewed at - [Heroku]()
+App can be viewed at - [Heroku](https://mvc-the-tech-blog.herokuapp.com/)
 
 ## Contributing
 :octocat: [Daniel A](https://github.com/dannyyyspam)
